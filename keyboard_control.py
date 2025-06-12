@@ -9,7 +9,6 @@ from scipy.spatial.transform import Rotation as R
 # ────────────────────────────── SDK / 本地模块 ──────────────────────────────
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from realman_robot.robotic_arm import *
-import rclpy
 from sensor_msgs.msg import JointState
 
 
@@ -42,14 +41,6 @@ class RobotController:
         # 初始末端位置／姿态（直接从当前仿真状态读出）
         self.current_frame_id = p.loadURDF("coordinate_frame.urdf", [0, 0, 0], useFixedBase=True)
         self.target_frame_id = p.loadURDF("coordinate_frame.urdf", [0, 0, 0], useFixedBase=True)
-
-        # ROS通信
-        rclpy.init()
-        self.ros_node  = rclpy.create_node('gen72_joint_pub')
-        self.pub_action   = self.ros_node.create_publisher(
-            JointState, 'arm_action_joint', 10)
-        self.pub_state = self.ros_node.create_publisher(
-            JointState, 'arm_state_joint', 10)
 
 
         if self.sim:     # 如果只用仿真
@@ -198,20 +189,16 @@ class RobotController:
             self.updateJoint()
         else:
             self.sendJoint()
-        rclpy.spin_once(self.ros_node, timeout_sec=0.0)
-
 def main():
     # 将下面路径改为你的 URDF 文件所在位置
     print("Hello ROS2  - keyboard control node running...")
     urdf = "rm_description/urdf/rm_gen72.urdf"
     controller = RobotController(urdf)
-    try:
-        while True:
-            p.stepSimulation()
-            controller.step()
-            time.sleep(1/240)
-    finally:
-        rclpy.shutdown()
+    while True:
+        p.stepSimulation()
+        controller.step()
+        time.sleep(1/240)
+
 
 if __name__ == "__main__":
     main()
