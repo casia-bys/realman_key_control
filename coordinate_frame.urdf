@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<robot name="coordinate_frame">
+    <!-- 定义根节点 -->
+    <link name="base"/>
+
+    <!-- X 轴（红色） -->
+    <link name="x_axis">
+        <visual>
+            <geometry>
+                <box size="0.2 0.02 0.02"/>
+            </geometry>
+            <material name="red">
+                <color rgba="1 0 0 1"/>
+            </material>
+        </visual>
+    </link>
+
+    <joint name="x_joint" type="fixed">
+        <parent link="base"/>
+        <child link="x_axis"/>
+        <origin xyz="0.1 0 0"/>
+    </joint>
+
+    <!-- Y 轴（绿色） -->
+    <link name="y_axis">
+        <visual>
+            <geometry>
+                <box size="0.02 0.2 0.02"/>
+            </geometry>
+            <material name="green">
+                <color rgba="0 1 0 1"/>
+            </material>
+        </visual>
+    </link>
+
+    <joint name="y_joint" type="fixed">
+        <parent link="base"/>
+        <child link="y_axis"/>
+        <origin xyz="0 0.1 0"/>
+    </joint>
+
+    <!-- Z 轴（蓝色） -->
+    <link name="z_axis">
+        <visual>
+            <geometry>
+                <box size="0.02 0.02 0.2"/>
+            </geometry>
+            <material name="blue">
+                <color rgba="0 0 1 1"/>
+            </material>
+        </visual>
+    </link>
+
+    <joint name="z_joint" type="fixed">
+        <parent link="base"/>
+        <child link="z_axis"/>
+        <origin xyz="0 0 0.1"/>
+    </joint>
+
+</robot>
+
